@@ -2,7 +2,7 @@
 const trkArr = [];
 const logArr = [];
 
-let grid = 80;
+let grid = 90;
 let keys = [];
 let frame = 0;
 let score = 0;
@@ -11,22 +11,39 @@ let gameSpeed = 1;
 const imgLog = new Image();
 imgLog.src = "./assets/images/Mix/log_small.png";
 
-const imgTruck1 = new Image();  
+const imgLog2 = new Image();
+imgLog2.src = "./assets/images/Mix/log_large.png";
+
+const imgTruck1 = new Image();
 imgTruck1.src = "./assets/images/Car/Truck_1.png";
 
-const imgTruck2 = new Image();  
+const imgTruck2 = new Image();
 imgTruck2.src = "./assets/images/Car/Truck_2.png";
 
-const imgTruck3 = new Image();  
+const imgTruck3 = new Image();
 imgTruck3.src = "./assets/images/Car/Truck_3.png";
 
-const imgTruck4 = new Image();  
+const imgTruck4 = new Image();
 imgTruck4.src = "./assets/images/Car/Truck_4.png";
+
+const imgTruck5 = new Image();
+imgTruck5.src = "./assets/images/Car/Truck_5.png";
+
+const imgFrog = new Image();
+imgFrog.src = "./assets/images/Frog/frog_idle.png";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 900;
+
+// function drawBgImg() {
+//   let bgImg = new Image();
+//   bgImg.src = './assets/images/Mix/bgimg.jpg';
+//   bgImg.onload = () => {
+//       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+//   }
+// }
 
 // const canvasLogs = document.getElementById("logs");
 // const ctxLogs = canvasLogs.getContext("2d");
@@ -86,8 +103,9 @@ class Frogger {
   }
 
   draw() {
-    ctx.fillStyle = "green";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    // ctx.fillStyle = "green";
+    // ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(imgFrog, this.x, this.y, this.width, this.height);
   }
 
   jump() {
@@ -116,11 +134,13 @@ class Obstacle {
 
 //Funções
 const frogger = new Frogger();
-const logs = new Obstacle(0, 710, 100, 75, 1, "logs", imgLog);
-const truck1 = new Obstacle(900, 620, 100, 75, -1, "truck1", imgTruck1);
-const truck2 = new Obstacle(0, 520, 100, 75, 1, "truck2", imgTruck2);
-const truck3 = new Obstacle(900, 420, 100, 75, -1, "truck3", imgTruck3);
-const truck4 = new Obstacle(0, 320, 100, 75, 1, "truck4", imgTruck4);
+const logs = new Obstacle(0, 340, 100, 60, 1, "logs", imgLog);
+const logs2 = new Obstacle(900, 430, 100, 60, -1, "logs2", imgLog2);
+const truck1 = new Obstacle(900, 610, 100, 75, -1, "truck1", imgTruck1);
+const truck2 = new Obstacle(0, 510, 100, 75, 1, "truck2", imgTruck2);
+const truck3 = new Obstacle(900, 250, 100, 75, -1, "truck3", imgTruck3);
+const truck4 = new Obstacle(0, 160, 100, 75, 1, "truck4", imgTruck4);
+const truck5 = new Obstacle(900, 65, 100, 75, -1, "truck5", imgTruck5);
 
 // function aniObstacle() {
 //   // for (let i = 0; i < logArr.length; i++) {
@@ -135,6 +155,8 @@ function animation() {
   frogger.draw();
   logs.update();
   logs.draw();
+  logs2.update();
+  logs2.draw();
   truck1.update();
   truck1.draw();
   truck2.update();
@@ -143,6 +165,8 @@ function animation() {
   truck3.draw();
   truck4.update();
   truck4.draw();
+  truck5.update();
+  truck5.draw();
   // aniObstacle();
   requestAnimationFrame(animation);
 }
