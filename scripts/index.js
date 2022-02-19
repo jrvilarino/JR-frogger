@@ -1,13 +1,19 @@
 //variables
 let trkArr = [];
-const logArr = [];
+let trkArr1 = [];
+let trkArr2 = [];
+let trkArr3 = [];
+let trkArr4 = [];
+let logArr1 = [];
+let logArr2 = [];
+let lifeArr = [];
 
 let grid = 90;
 let keys = [];
 let frame = 0;
 let score = 0;
-let gameSpeed = 1;
-let safe = false;
+let gameSpeed = 0;
+let life = 3;
 
 const imgLog = new Image();
 imgLog.src = "./assets/images/Mix/log_small.png";
@@ -37,7 +43,10 @@ const imgDeath = new Image();
 imgDeath.src = "./assets/images/Frog/frog_death.png";
 
 const imgJump = new Image();
-imgJump.src = "../assets/images/Frog/frog_jump.png";
+imgJump.src = "./assets/images/Frog/frog_jump.png";
+
+const imgHeart = new Image();
+imgHeart.src = "./assets/images/Mix/heart.png";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -56,6 +65,7 @@ class Frogger {
     this.moving = false;
     this.frameX = 0;
     this.framey = 0;
+    this.life = 3;
   }
   update() {
     if (keys[38]) {
@@ -119,7 +129,6 @@ class Frogger {
       this.left() > obstacle.right()
     );
   }
-
 }
 
 class Obstacle {
@@ -167,32 +176,82 @@ const truck2 = new Obstacle(0, 510, 100, 75, 1, "truck2", imgTruck2);
 const truck3 = new Obstacle(900, 250, 100, 75, -3, "truck3", imgTruck3);
 const truck4 = new Obstacle(0, 160, 100, 75, 1, "truck4", imgTruck4);
 const truck5 = new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5);
-trkArr = [new Obstacle(900, 610, 100, 75, -3, "truck1", imgTruck1),new Obstacle(800, 610, 100, 75, -3, "truck1", imgTruck1),new Obstacle(700, 610, 100, 75, -3, "truck1", imgTruck1)];
+const heart = new Obstacle(850, 10, 45, 45, 0, "truck5", imgHeart);
+
+lifeArr = [
+  new Obstacle(850, 10, 45, 45, 0, "truck5", imgHeart),
+  new Obstacle(800, 10, 45, 45, 0, "truck5", imgHeart),
+  new Obstacle(750, 10, 45, 45, 0, "truck5", imgHeart),
+];
+
+trkArr = [
+  new Obstacle(900, 610, 100, 75, -3, "truck1", imgTruck1),
+  new Obstacle(700, 610, 100, 75, -3, "truck1", imgTruck1),
+  new Obstacle(300, 610, 100, 75, -3, "truck1", imgTruck1),
+];
+trkArr1 = [
+  new Obstacle(0, 510, 100, 75, 1, "truck2", imgTruck2),
+  new Obstacle(200, 510, 100, 75, 1, "truck2", imgTruck2),
+  new Obstacle(450, 510, 100, 75, 1, "truck2", imgTruck2),
+  new Obstacle(600, 510, 100, 75, 1, "truck2", imgTruck2),
+];
+trkArr2 = [
+  new Obstacle(0, 160, 100, 75, 1, "truck4", imgTruck4),
+  new Obstacle(225, 160, 100, 75, 1, "truck4", imgTruck4),
+  new Obstacle(450, 160, 100, 75, 1, "truck4", imgTruck4),
+  new Obstacle(675, 160, 100, 75, 1, "truck4", imgTruck4),
+];
+trkArr3 = [
+  new Obstacle(900, 250, 100, 75, -3, "truck3", imgTruck3),
+  new Obstacle(600, 250, 100, 75, -3, "truck3", imgTruck3),
+  new Obstacle(300, 250, 100, 75, -3, "truck3", imgTruck3),
+];
+trkArr4 = [
+  new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5),
+  new Obstacle(650, 65, 100, 75, -4, "truck5", imgTruck5),
+  new Obstacle(520, 65, 100, 75, -4, "truck5", imgTruck5),
+  new Obstacle(300, 65, 100, 75, -4, "truck5", imgTruck5),
+  new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5),
+];
+logArr1 = [
+  new Obstacle(0, 340, 300, 60, 1, "logs", imgLog),
+  new Obstacle(450, 340, 300, 60, 1, "logs", imgLog),
+];
 
 function animation() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < lifeArr.length; i++) {
+    lifeArr[i].update();
+    lifeArr[i].draw();
+  }
   logs.update();
   logs.draw();
   logs2.update();
   logs2.draw();
-  
   frogger.update();
   frogger.draw();
   manageObstacle();
-  for (let i = 0; i < trkArr.length; i++){
+  for (let i = 0; i < trkArr.length; i++) {
     trkArr[i].update();
     trkArr[i].draw();
   }
-  // truck1.update();
-  // truck1.draw();
-  truck2.update();
-  truck2.draw();
-  truck3.update();
-  truck3.draw();
-  truck4.update();
-  truck4.draw();
-  truck5.update();
-  truck5.draw();
+  for (let i = 0; i < trkArr1.length; i++) {
+    trkArr1[i].update();
+    trkArr1[i].draw();
+  }
+  for (let i = 0; i < trkArr2.length; i++) {
+    trkArr2[i].update();
+    trkArr2[i].draw();
+  }
+  for (let i = 0; i < trkArr3.length; i++) {
+    trkArr3[i].update();
+    trkArr3[i].draw();
+  }
+  for (let i = 0; i < trkArr4.length; i++) {
+    trkArr4[i].update();
+    trkArr4[i].draw();
+  }
+  gameOver();
   victoryGame();
   scoreBoard();
   requestAnimationFrame(animation);
@@ -218,49 +277,50 @@ function scoreBoard() {
 }
 
 function manageObstacle() {
-  for (let i = 0; i < trkArr.length;i++){
+  for (let i = 0; i < trkArr.length; i++) {
     if (collisionTruck(frogger, trkArr[i])) {
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-      // window.setTimeout(resetgame, 200)
-      return
+      window.setTimeout(resetgame, 200);
+      return;
     }
   }
-  
-  if (collisionTruck(frogger, truck2)) {
-    ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
-    ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-    // window.setTimeout(resetgame, 200)
-    return
-  }
-  if (collisionTruck(frogger, truck3)) {
-    ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
-    ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-    // window.setTimeout(resetgame, 200)
-    return
-  }
-  if (collisionTruck(frogger, truck4)) {
-    ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
-    ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-    // window.setTimeout(resetgame, 200)
-    return
-  }
-  if (collisionTruck(frogger, truck5)) {
-    ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
-    ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-    // window.setTimeout(resetgame, 200)
-    return
-  }
-  if (frogger.y >= 290 && frogger.y <= 510) {
-    if (!collisionTruck(frogger, logs)) {
+  for (let i = 0; i < trkArr1.length; i++) {
+    if (collisionTruck(frogger, trkArr1[i])) {
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
       // window.setTimeout(resetgame, 200)
       return;
     }
   }
+  for (let i = 0; i < trkArr2.length; i++) {
+    if (collisionTruck(frogger, trkArr2[i])) {
+      ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
+      ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
+      // window.setTimeout(resetgame, 200)
+      return;
+    }
+  }
+  for (let i = 0; i < trkArr3.length; i++) {
+    if (collisionTruck(frogger, trkArr3[i])) {
+      ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
+      ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
+      // window.setTimeout(resetgame, 200)
+      return;
+    }
+  }
+
+  for (let i = 0; i < trkArr4.length; i++) {
+    if (collisionTruck(frogger, trkArr4[i])) {
+      ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
+      ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
+      // window.setTimeout(resetgame, 200)
+      return;
+    }
+  }
+
   if (frogger.y >= 290 && frogger.y <= 510) {
-    if (!frogger.crashWith(logs2)) {
+    if (!frogger.crashWith(logs) && !frogger.crashWith(logs2)) {
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
       // window.setTimeout(resetgame, 200)
@@ -277,27 +337,24 @@ function collisionTruck(first, second) {
     first.y + first.height < second.y
   );
 }
-// function collisionLog(first, second) {
-//   return (
-//     first.x > second.x + second.width ||
-//     first.x + first.width < second.x ||
-//     first.y > second.y + second.height ||
-//     first.y + first.height < second.y
-//   );
-// }
 
 function resetgame() {
   frogger.x = canvas.width / 2 - frogger.width / 2;
   frogger.y = canvas.height - frogger.height - 40;
   score = 1;
+  life = life - 1;
+  // if (life=== 0){
+  //   gameOver();
+  // };
+  console.log(life);
   gameSpeed = 1;
 }
 
 function victoryGame() {
-  if (score >= 2) {
+  if (score === 5) {
     this.clear();
     const imgVictory = new Image();
-    imgVictory.src = "../assets/images/Frog/frog_victory.png";
+    imgVictory.src = "./assets/images/Frog/frog_victory.png";
 
     ctx.drawImage(imgVictory, 200, 70, 500, 700);
 
@@ -307,6 +364,25 @@ function victoryGame() {
     ctx.font = "55px Verdana";
     ctx.fillStyle = "white";
     ctx.fillText(`You beat the game! Frogtastic!`, 30, 850);
+  }
+  clear = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+}
+
+function gameOver() {
+  if (life === 0) {
+    this.clear();
+    const imgGameOver = new Image();
+    imgGameOver.src = "./assets/images/Frog/frog_game_over.png";
+
+    ctx.drawImage(imgGameOver, 200, 70, 500, 700);
+
+    ctx.font = "40px Verdana";
+    ctx.fillStyle = "white";
+    ctx.fillText(`Should not be that hard!!`, 200, 790);
+    ctx.fillStyle = "white";
+    ctx.fillText(`YOU LOSE`, 350, 850);
   }
   clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
