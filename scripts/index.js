@@ -251,9 +251,9 @@ function animation() {
     trkArr4[i].update();
     trkArr4[i].draw();
   }
-  gameOver();
   victoryGame();
   scoreBoard();
+  // gameOver();
   requestAnimationFrame(animation);
 }
 animation();
@@ -265,6 +265,14 @@ function wins() {
   frogger.y = canvas.height - frogger.height - 40;
 }
 
+function lostLife() {
+  life--;
+  if (life === 0) {
+    gameOver();
+  }
+  return;
+}
+
 function scoreBoard() {
   ctx.fillstyle = "black";
   ctx.strokeStyle = "black";
@@ -272,8 +280,6 @@ function scoreBoard() {
   ctx.strokeText("Nivel:", 20, 40);
   ctx.font = "30px Verdana";
   ctx.fillText(score, 130, 40);
-  // ctx.font = '20px Verdana';
-  // ctx.fillText('Speed ' + gameSpeed, 20, 60)
 }
 
 function manageObstacle() {
@@ -282,6 +288,8 @@ function manageObstacle() {
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
       window.setTimeout(resetgame, 200);
+      console.log(life);
+      lostLife();
       return;
     }
   }
@@ -342,11 +350,6 @@ function resetgame() {
   frogger.x = canvas.width / 2 - frogger.width / 2;
   frogger.y = canvas.height - frogger.height - 40;
   score = 1;
-  life = life - 1;
-  // if (life=== 0){
-  //   gameOver();
-  // };
-  console.log(life);
   gameSpeed = 1;
 }
 
@@ -371,23 +374,25 @@ function victoryGame() {
 }
 
 function gameOver() {
-  if (life === 0) {
-    this.clear();
-    const imgGameOver = new Image();
-    imgGameOver.src = "./assets/images/Frog/frog_game_over.png";
+  // if(life === 0){
 
-    ctx.drawImage(imgGameOver, 200, 70, 500, 700);
+  this.clear();
+  const imgGameOver = new Image();
+  imgGameOver.src = "./assets/images/Frog/frog_game_over.png";
 
-    ctx.font = "40px Verdana";
-    ctx.fillStyle = "white";
-    ctx.fillText(`Should not be that hard!!`, 200, 790);
-    ctx.fillStyle = "white";
-    ctx.fillText(`YOU LOSE`, 350, 850);
-  }
+  ctx.drawImage(imgGameOver, 200, 70, 500, 700);
+
+  ctx.font = "40px Verdana";
+  ctx.fillStyle = "white";
+  ctx.fillText(`Should not be that hard!!`, 200, 790);
+  ctx.fillStyle = "white";
+  ctx.fillText(`YOU LOSE`, 350, 850);
+  // }
   clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 }
+
 //eventlistener
 
 window.addEventListener("keydown", function () {
