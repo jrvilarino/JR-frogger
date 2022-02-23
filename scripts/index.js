@@ -13,7 +13,12 @@ let keys = [];
 let frame = 0;
 let score = 0;
 let gameSpeed = 0;
-let life = 3;
+let aniID;
+let gameOverCond = false;
+// let life = 3;
+
+const imgGameOver = new Image();
+imgGameOver.src = "./assets/images/Frog/frog_game_over.png";
 
 const imgLog = new Image();
 imgLog.src = "./assets/images/Mix/log_small.png";
@@ -53,6 +58,8 @@ const ctx = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 900;
 
+
+
 //classes
 class Frogger {
   constructor() {
@@ -66,6 +73,7 @@ class Frogger {
     this.frameX = 0;
     this.framey = 0;
     this.life = 3;
+    this.invencible = false;
   }
   update() {
     if (keys[38]) {
@@ -105,10 +113,6 @@ class Frogger {
     ctx.drawImage(imgFrog, this.x, this.y, this.width, this.height);
   }
 
-  // jump() {
-  //   ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
-  //   ctx.drawImage(imgJump, frogger.x, frogger.y, 70, 70);
-  // }
   left() {
     return this.x;
   }
@@ -167,22 +171,33 @@ class Obstacle {
   }
 }
 
+class healthBar {
+  constructor(x, y, width, height, img) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.img = img;
+  }
+  draw() {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+  
+}
+
+
 //Funções
 const frogger = new Frogger();
 const logs = new Obstacle(0, 340, 300, 60, 1, "logs", imgLog);
 const logs2 = new Obstacle(900, 440, 300, 60, -2, "logs2", imgLog2);
-const truck1 = new Obstacle(900, 610, 100, 75, -3, "truck1", imgTruck1);
-const truck2 = new Obstacle(0, 510, 100, 75, 1, "truck2", imgTruck2);
-const truck3 = new Obstacle(900, 250, 100, 75, -3, "truck3", imgTruck3);
-const truck4 = new Obstacle(0, 160, 100, 75, 1, "truck4", imgTruck4);
-const truck5 = new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5);
-const heart = new Obstacle(850, 10, 45, 45, 0, "truck5", imgHeart);
+const heart1 = new healthBar(850,10,45, 45,imgHeart);
+const heart2 = new healthBar(800,10,45, 45,imgHeart);
+const heart3 = new healthBar(750,10,45, 45,imgHeart);
+
 
 lifeArr = [
-  new Obstacle(850, 10, 45, 45, 0, "truck5", imgHeart),
-  new Obstacle(800, 10, 45, 45, 0, "truck5", imgHeart),
-  new Obstacle(750, 10, 45, 45, 0, "truck5", imgHeart),
-];
+heart1, heart2, heart3
+]
 
 trkArr = [
   new Obstacle(900, 610, 100, 75, -3, "truck1", imgTruck1),
@@ -218,10 +233,11 @@ logArr1 = [
   new Obstacle(450, 340, 300, 60, 1, "logs", imgLog),
 ];
 
+
+
 function animation() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < lifeArr.length; i++) {
-    lifeArr[i].update();
+  for (let i = 0; i < frogger.life; i++) {
     lifeArr[i].draw();
   }
   logs.update();
@@ -253,8 +269,22 @@ function animation() {
   }
   victoryGame();
   scoreBoard();
-  // gameOver();
-  requestAnimationFrame(animation);
+  
+aniID =  requestAnimationFrame(animation);
+
+if(gameOverCond){
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 
+
+  ctx.drawImage(imgGameOver, 200, 70, 500, 700);
+
+  ctx.font = "40px Verdana";
+  ctx.fillStyle = "white";
+  ctx.fillText(`Should not be that hard!!`, 200, 790);
+  ctx.fillStyle = "white";
+  ctx.fillText(`YOU LOSE`, 350, 850);
+cancelAnimationFrame(aniID);
+}
 }
 animation();
 
@@ -266,11 +296,11 @@ function wins() {
 }
 
 function lostLife() {
-  life--;
-  if (life === 0) {
-    gameOver();
-  }
-  return;
+if (frogger.life > 1){
+ frogger.life--
+ 
+}else {frogger.life--
+   gameOver()};
 }
 
 function scoreBoard() {
@@ -285,11 +315,14 @@ function scoreBoard() {
 function manageObstacle() {
   for (let i = 0; i < trkArr.length; i++) {
     if (collisionTruck(frogger, trkArr[i])) {
+      console.log(frogger.invencible)
+      if (!frogger.invencible){
+        lostLife();
+      } 
+      frogger.invencible = true;
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
       window.setTimeout(resetgame, 200);
-      console.log(life);
-      lostLife();
       return;
     }
   }
@@ -351,10 +384,11 @@ function resetgame() {
   frogger.y = canvas.height - frogger.height - 40;
   score = 1;
   gameSpeed = 1;
+  frogger.invencible = false
 }
 
 function victoryGame() {
-  if (score === 5) {
+  if (score === 2) {
     this.clear();
     const imgVictory = new Image();
     imgVictory.src = "./assets/images/Frog/frog_victory.png";
@@ -374,24 +408,9 @@ function victoryGame() {
 }
 
 function gameOver() {
-  // if(life === 0){
-
-  this.clear();
-  const imgGameOver = new Image();
-  imgGameOver.src = "./assets/images/Frog/frog_game_over.png";
-
-  ctx.drawImage(imgGameOver, 200, 70, 500, 700);
-
-  ctx.font = "40px Verdana";
-  ctx.fillStyle = "white";
-  ctx.fillText(`Should not be that hard!!`, 200, 790);
-  ctx.fillStyle = "white";
-  ctx.fillText(`YOU LOSE`, 350, 850);
-  // }
-  clear = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  };
+   gameOverCond = true;
 }
+
 
 //eventlistener
 
@@ -400,7 +419,7 @@ window.addEventListener("keydown", function () {
   keys[event.keyCode] = true;
   //37 esquerda, 38 cima, 39 direita, 40 baixo
   if (keys[37] || keys[38] || keys[39] || keys[40]) {
-    // frogger.jump();
+    
   }
 });
 
