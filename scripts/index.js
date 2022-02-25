@@ -15,7 +15,6 @@ let score = 0;
 let gameSpeed = 0;
 let aniID;
 let gameOverCond = false;
-// let life = 3;
 
 const imgGameOver = new Image();
 imgGameOver.src = "./assets/images/Frog/frog_game_over.png";
@@ -53,12 +52,12 @@ imgJump.src = "./assets/images/Frog/frog_jump.png";
 const imgHeart = new Image();
 imgHeart.src = "./assets/images/Mix/heart.png";
 
+const restartbtn = document.querySelector(".btn");
+
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 900;
-
-
 
 //classes
 class Frogger {
@@ -182,58 +181,41 @@ class healthBar {
   draw() {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
-  
 }
 
-
-//Funções
 const frogger = new Frogger();
 const logs = new Obstacle(0, 340, 300, 60, 1, "logs", imgLog);
 const logs2 = new Obstacle(900, 440, 300, 60, -2, "logs2", imgLog2);
-const heart1 = new healthBar(850,10,45, 45,imgHeart);
-const heart2 = new healthBar(800,10,45, 45,imgHeart);
-const heart3 = new healthBar(750,10,45, 45,imgHeart);
+const heart1 = new healthBar(850, 10, 45, 45, imgHeart);
+const heart2 = new healthBar(800, 10, 45, 45, imgHeart);
+const heart3 = new healthBar(750, 10, 45, 45, imgHeart);
+const truck1_1 = new Obstacle(900, 610, 100, 75, -3, "truck1", imgTruck1);
+const truck1_2 = new Obstacle(700, 610, 100, 75, -3, "truck1", imgTruck1);
+const truck1_3 = new Obstacle(300, 610, 100, 75, -3, "truck1", imgTruck1);
+const truck2_1 = new Obstacle(0, 510, 100, 75, 1, "truck2", imgTruck2);
+const truck2_2 = new Obstacle(200, 510, 100, 75, 1, "truck2", imgTruck2);
+const truck2_3 = new Obstacle(450, 510, 100, 75, 1, "truck2", imgTruck2);
+const truck2_4 = new Obstacle(600, 510, 100, 75, 1, "truck2", imgTruck2);
+const truck3_1 = new Obstacle(0, 160, 100, 75, 1, "truck4", imgTruck4);
+const truck3_2 = new Obstacle(225, 160, 100, 75, 1, "truck4", imgTruck4);
+const truck3_3 = new Obstacle(450, 160, 100, 75, 1, "truck4", imgTruck4);
+const truck3_4 = new Obstacle(675, 160, 100, 75, 1, "truck4", imgTruck4);
+const truck4_1 = new Obstacle(900, 250, 100, 75, -3, "truck3", imgTruck3);
+const truck4_2 = new Obstacle(600, 250, 100, 75, -3, "truck3", imgTruck3);
+const truck4_3 = new Obstacle(300, 250, 100, 75, -3, "truck3", imgTruck3);
+const truck5_1 = new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5);
+const truck5_2 = new Obstacle(650, 65, 100, 75, -4, "truck5", imgTruck5);
+const truck5_3 = new Obstacle(520, 65, 100, 75, -4, "truck5", imgTruck5);
+const truck5_4 = new Obstacle(300, 65, 100, 75, -4, "truck5", imgTruck5);
+const truck5_5 = new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5);
 
-
-lifeArr = [
-heart1, heart2, heart3
-]
-
-trkArr = [
-  new Obstacle(900, 610, 100, 75, -3, "truck1", imgTruck1),
-  new Obstacle(700, 610, 100, 75, -3, "truck1", imgTruck1),
-  new Obstacle(300, 610, 100, 75, -3, "truck1", imgTruck1),
-];
-trkArr1 = [
-  new Obstacle(0, 510, 100, 75, 1, "truck2", imgTruck2),
-  new Obstacle(200, 510, 100, 75, 1, "truck2", imgTruck2),
-  new Obstacle(450, 510, 100, 75, 1, "truck2", imgTruck2),
-  new Obstacle(600, 510, 100, 75, 1, "truck2", imgTruck2),
-];
-trkArr2 = [
-  new Obstacle(0, 160, 100, 75, 1, "truck4", imgTruck4),
-  new Obstacle(225, 160, 100, 75, 1, "truck4", imgTruck4),
-  new Obstacle(450, 160, 100, 75, 1, "truck4", imgTruck4),
-  new Obstacle(675, 160, 100, 75, 1, "truck4", imgTruck4),
-];
-trkArr3 = [
-  new Obstacle(900, 250, 100, 75, -3, "truck3", imgTruck3),
-  new Obstacle(600, 250, 100, 75, -3, "truck3", imgTruck3),
-  new Obstacle(300, 250, 100, 75, -3, "truck3", imgTruck3),
-];
-trkArr4 = [
-  new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5),
-  new Obstacle(650, 65, 100, 75, -4, "truck5", imgTruck5),
-  new Obstacle(520, 65, 100, 75, -4, "truck5", imgTruck5),
-  new Obstacle(300, 65, 100, 75, -4, "truck5", imgTruck5),
-  new Obstacle(900, 65, 100, 75, -4, "truck5", imgTruck5),
-];
-logArr1 = [
-  new Obstacle(0, 340, 300, 60, 1, "logs", imgLog),
-  new Obstacle(450, 340, 300, 60, 1, "logs", imgLog),
-];
-
-
+lifeArr = [heart1, heart2, heart3];
+trkArr = [truck1_1, truck1_2, truck1_3];
+trkArr1 = [truck2_1, truck2_2, truck2_3, truck2_4];
+trkArr2 = [truck3_1, truck3_2, truck3_3, truck3_4];
+trkArr3 = [truck4_1, truck4_2, truck4_3];
+trkArr4 = [truck5_1, truck5_2, truck5_3, truck5_4, truck5_5];
+logArr1 = [logs, logs2];
 
 function animation() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -269,22 +251,21 @@ function animation() {
   }
   victoryGame();
   scoreBoard();
-  
-aniID =  requestAnimationFrame(animation);
 
-if(gameOverCond){
-   ctx.clearRect(0, 0, canvas.width, canvas.height);
- 
+  aniID = requestAnimationFrame(animation);
 
-  ctx.drawImage(imgGameOver, 200, 70, 500, 700);
+  if (gameOverCond) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.font = "40px Verdana";
-  ctx.fillStyle = "white";
-  ctx.fillText(`Should not be that hard!!`, 200, 790);
-  ctx.fillStyle = "white";
-  ctx.fillText(`YOU LOSE`, 350, 850);
-cancelAnimationFrame(aniID);
-}
+    ctx.drawImage(imgGameOver, 200, 70, 500, 700);
+
+    ctx.font = "40px Verdana";
+    ctx.fillStyle = "white";
+    ctx.fillText(`Should not be that hard!!`, 200, 790);
+    ctx.fillStyle = "white";
+    ctx.fillText(`YOU LOSE`, 350, 850);
+    cancelAnimationFrame(aniID);
+  }
 }
 animation();
 
@@ -296,11 +277,13 @@ function wins() {
 }
 
 function lostLife() {
-if (frogger.life > 1){
- frogger.life--
- 
-}else {frogger.life--
-   gameOver()};
+  if (frogger.life > 1) {
+    frogger.life--;
+  } else {
+    frogger.life--;
+    gameOver();
+    restartbtn.style.display = "block";
+  }
 }
 
 function scoreBoard() {
@@ -315,10 +298,9 @@ function scoreBoard() {
 function manageObstacle() {
   for (let i = 0; i < trkArr.length; i++) {
     if (collisionTruck(frogger, trkArr[i])) {
-      console.log(frogger.invencible)
-      if (!frogger.invencible){
+      if (!frogger.invencible) {
         lostLife();
-      } 
+      }
       frogger.invencible = true;
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
@@ -328,43 +310,63 @@ function manageObstacle() {
   }
   for (let i = 0; i < trkArr1.length; i++) {
     if (collisionTruck(frogger, trkArr1[i])) {
+      if (!frogger.invencible) {
+        lostLife();
+      }
+      frogger.invencible = true;
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-      // window.setTimeout(resetgame, 200)
+      window.setTimeout(resetgame, 200);
       return;
     }
   }
   for (let i = 0; i < trkArr2.length; i++) {
     if (collisionTruck(frogger, trkArr2[i])) {
+      if (!frogger.invencible) {
+        lostLife();
+      }
+      frogger.invencible = true;
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-      // window.setTimeout(resetgame, 200)
+      window.setTimeout(resetgame, 200);
       return;
     }
   }
   for (let i = 0; i < trkArr3.length; i++) {
     if (collisionTruck(frogger, trkArr3[i])) {
+      if (!frogger.invencible) {
+        lostLife();
+      }
+      frogger.invencible = true;
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-      // window.setTimeout(resetgame, 200)
+      window.setTimeout(resetgame, 200);
       return;
     }
   }
 
   for (let i = 0; i < trkArr4.length; i++) {
     if (collisionTruck(frogger, trkArr4[i])) {
+      if (!frogger.invencible) {
+        lostLife();
+      }
+      frogger.invencible = true;
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-      // window.setTimeout(resetgame, 200)
+      window.setTimeout(resetgame, 200);
       return;
     }
   }
 
   if (frogger.y >= 290 && frogger.y <= 510) {
     if (!frogger.crashWith(logs) && !frogger.crashWith(logs2)) {
+      if (!frogger.invencible) {
+        lostLife();
+      }
+      frogger.invencible = true;
       ctx.clearRect(frogger.x, frogger.y, frogger.width, frogger.height);
       ctx.drawImage(imgDeath, frogger.x, frogger.y, 70, 70);
-      // window.setTimeout(resetgame, 200)
+      window.setTimeout(resetgame, 200);
       return;
     }
   }
@@ -384,7 +386,7 @@ function resetgame() {
   frogger.y = canvas.height - frogger.height - 40;
   score = 1;
   gameSpeed = 1;
-  frogger.invencible = false
+  frogger.invencible = false;
 }
 
 function victoryGame() {
@@ -401,29 +403,28 @@ function victoryGame() {
     ctx.font = "55px Verdana";
     ctx.fillStyle = "white";
     ctx.fillText(`You beat the game! Frogtastic!`, 30, 850);
+    restartbtn.style.display = "block";
   }
+
   clear = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 }
 
 function gameOver() {
-   gameOverCond = true;
+  gameOverCond = true;
 }
-
 
 //eventlistener
 
 window.addEventListener("keydown", function () {
   keys = [];
   keys[event.keyCode] = true;
-  //37 esquerda, 38 cima, 39 direita, 40 baixo
-  if (keys[37] || keys[38] || keys[39] || keys[40]) {
-    
-  }
 });
 
 window.addEventListener("keyup", function () {
   delete keys[event.keyCode];
   frogger.moving = false;
 });
+
+restartbtn.addEventListener("click", () => window.location.reload());
